@@ -2,7 +2,8 @@ const postContainer = document.querySelector("#root");
 const prevPostBtn = document.querySelector(".left");
 const nextPostBtn = document.querySelector(".right");
 const BASE_URL = "https://jsonplaceholder.typicode.com";
-let currentPostId = 1;
+
+let currentPostId = Number(localStorage.getItem("currentPostId"));
 
 const getPostById = async (currentPostId) => {
   try {
@@ -13,7 +14,6 @@ const getPostById = async (currentPostId) => {
     console.error("Error fetching post:", error);
   }
 };
-getPostById(1);
 
 const renderPost = (post) => {
   const title = document.createElement("p");
@@ -32,7 +32,10 @@ const renderPost = (post) => {
 const loadPost = async () => {
   const postData = await getPostById(currentPostId);
   postContainer.innerHTML = "";
-  renderPost(postData);
+  if (postData) {
+    renderPost(postData);
+    localStorage.setItem("currentPostId", currentPostId);
+  }
 };
 loadPost();
 
