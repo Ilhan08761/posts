@@ -30,7 +30,11 @@ const renderPost = (post) => {
 };
 
 const loadPost = async () => {
+  prevPostBtn.disabled = true;
+  nextPostBtn.disabled = true;
+
   postContainer.innerHTML = "";
+
   const loaderContainer = document.createElement("div");
   const spinner = document.createElement("div");
   loaderContainer.classList.add("loader-container");
@@ -44,7 +48,10 @@ const loadPost = async () => {
     renderPost(postData);
     localStorage.setItem("currentPostId", currentPostId);
   }
-  prevPostBtn.disabled = currentPostId === 1;
+  setTimeout(() => {
+    nextPostBtn.disabled = false;
+    prevPostBtn.disabled = currentPostId === 1;
+  }, 350);
 };
 
 loadPost();
@@ -55,6 +62,8 @@ nextPostBtn.addEventListener("click", () => {
 });
 
 prevPostBtn.addEventListener("click", () => {
-  currentPostId--;
-  loadPost();
-});
+    if (currentPostId > 1) {
+      currentPostId--;
+      loadPost();
+    }
+  });
