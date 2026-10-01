@@ -49,7 +49,7 @@ const loadPost = async () => {
     localStorage.setItem("currentPostId", currentPostId);
   }
   setTimeout(() => {
-    nextPostBtn.disabled = false;
+    nextPostBtn.disabled = currentPostId === 100;
     prevPostBtn.disabled = currentPostId === 1;
   }, 350);
 };
@@ -57,9 +57,11 @@ const loadPost = async () => {
 loadPost();
 
 nextPostBtn.addEventListener("click", () => {
-  currentPostId++;
-  loadPost();
-});
+    if (currentPostId < 100) {
+      currentPostId++;
+      loadPost();
+    }
+  });
 
 prevPostBtn.addEventListener("click", () => {
     if (currentPostId > 1) {
