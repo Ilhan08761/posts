@@ -30,13 +30,23 @@ const renderPost = (post) => {
 };
 
 const loadPost = async () => {
+  postContainer.innerHTML = "";
+  const loaderContainer = document.createElement("div");
+  const spinner = document.createElement("div");
+  loaderContainer.classList.add("loader-container");
+  spinner.classList.add("spinner");
+  loaderContainer.appendChild(spinner);
+  postContainer.appendChild(loaderContainer);
+
   const postData = await getPostById(currentPostId);
   postContainer.innerHTML = "";
   if (postData) {
     renderPost(postData);
     localStorage.setItem("currentPostId", currentPostId);
   }
+  prevPostBtn.disabled = currentPostId === 1;
 };
+
 loadPost();
 
 nextPostBtn.addEventListener("click", () => {
